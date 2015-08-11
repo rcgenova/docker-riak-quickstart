@@ -4,7 +4,7 @@ Run Riak on Docker
 
 ## Install Docker
 
-See: [https://www.docker.io/gettingstarted/#h_installation](https://www.docker.io/gettingstarted/#h_installation)
+See: [https://docs.docker.com/installation/](https://docs.docker.com/installation)
 
 ## Storage
 
