@@ -4,6 +4,13 @@
 IP_ADDRESS=$(ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1)
 sed -i.bak "s/riak@127.0.0.1/riak@${IP_ADDRESS}/" /etc/riak/riak.conf
 
+## Set other configs
+sed -i.bak 's/listener.http.internal = 127.0.0.1/listener.http.internal = 0.0.0.0/' /etc/riak/riak.conf && \
+sed -i.bak 's/listener.protobuf.internal = 127.0.0.1/listener.protobuf.internal = 0.0.0.0/' /etc/riak/riak.conf && \
+echo "erlang.distribution.port_range.minimum = 6000" >> /etc/riak/riak.conf && \
+echo "erlang.distribution.port_range.maximum = 7999" >> /etc/riak/riak.conf && \
+echo "search = on" >> /etc/riak/riak.conf
+
 ## Increase the ulimit
 ulimit -n 65536
 
