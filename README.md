@@ -4,11 +4,11 @@ Run Riak on Docker
 
 ## Install Docker
 
-See: [https://www.docker.io/gettingstarted/#h_installation](https://www.docker.io/gettingstarted/#h_installation)
+See: [https://docs.docker.com/installation/](https://docs.docker.com/installation)
 
 ## Storage
 
-Databases perform best on Docker with host-mounted storage. This requires a directly per container on the host system:
+Databases perform best on Docker with host-mounted storage. This requires a directory per container on the host system:
 
 ```bash
 mkdir /data
