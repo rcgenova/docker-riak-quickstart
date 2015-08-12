@@ -26,8 +26,7 @@ RUN chmod 755 /etc/service/riak/run
 RUN sed -i.bak 's/listener.http.internal = 127.0.0.1/listener.http.internal = 0.0.0.0/' /etc/riak/riak.conf && \
     sed -i.bak 's/listener.protobuf.internal = 127.0.0.1/listener.protobuf.internal = 0.0.0.0/' /etc/riak/riak.conf && \
     echo "erlang.distribution.port_range.minimum = 6000" >> /etc/riak/riak.conf && \
-    echo "erlang.distribution.port_range.maximum = 7999" >> /etc/riak/riak.conf && \
-    echo "search = on" >> /etc/riak/riak.conf
+    echo "erlang.distribution.port_range.maximum = 7999" >> /etc/riak/riak.conf
 
 # Expose ports
 
@@ -47,6 +46,7 @@ EXPOSE 8099
 EXPOSE 8985 8093
 
 VOLUME /var/lib/riak
+VOLUME /var/log/riak
 
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
