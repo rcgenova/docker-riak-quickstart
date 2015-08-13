@@ -4,7 +4,7 @@ Quickstart guide to running Riak on Docker for both development and production e
 
 ## Install Docker
 
-You will need to install Docker. See: [https://docs.docker.com/installation/](https://docs.docker.com/installation)
+You will need to install Docker. See: [https://docs.docker.com/installation](https://docs.docker.com/installation).
 
 ## Docker and distributed databases
 
@@ -51,7 +51,7 @@ sudo cp -R /riak/node1 /riak/node2
 sudo cp -R /riak/node1 /riak/node3
 ```
 
-Launch the containers. Note the volume mappings and exposing of ports 8087 and 8098 for the first container.
+Launch the containers. Note the volume mappings and exposing of ports 8087 and 8098 for the first container:
 
 ```bash
 sudo docker run --name "riak1" -p 8087:8087 -p 8098:8098 -v /riak/node1/lib:/var/lib/riak -v /riak/node1/log:/var/log/riak -d rcgenova/docker-riak-lite
@@ -78,7 +78,7 @@ sudo docker exec -i -t riak3 riak-admin cluster commit
 sudo docker exec -i -t riak3 riak-admin member-status
 ```
 
-Get started with a Riak client [here](http://docs.basho.com/riak/latest/dev/taste-of-riak).
+Get started with a Riak client [here](http://docs.basho.com/riak/latest/dev/taste-of-riak)!
 
 ## Deploying a production cluster
 
@@ -112,4 +112,9 @@ sudo docker exec -i -t riak riak-admin cluster commit
 sudo docker exec -i -t riak riak-admin member-status
 ```
 
+## Riak configuration & tuning
+
+The only non-default configuration in the Dockerfile is the enablement of [Riak Search](http://docs.basho.com/riak/latest/dev/using/search). You should review the documentation on [basic configuration](http://docs.basho.com/riak/latest/ops/building/configuration) and [choosing a backend](http://docs.basho.com/riak/latest/ops/building/planning/backends) to determine whether or not additional changes make sense. Changes to the default configs will require building a new image from an updated Dockerfile.
+
+It's also a good idea to [tune your Linux host](http://docs.basho.com/riak/latest/ops/tuning/linux).
 
