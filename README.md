@@ -36,54 +36,77 @@ $ sudo docker build -t "rcgenova/docker-riak-lite" .
 $ sudo docker pull rcgenova/docker-riak-lite
 ```
 
-## Deployment: single node
+## Deploying a development cluster
 
-Build or pull the image (see above).
+Note: Hector Castro has an excellent [repo](https://github.com/hectcastro/docker-riak) which fully automates this.
 
-Create a data directory on the host:
-
-```bash
-mkdir /data
-```
-
-Launch the container:
+Create per-node data directories on the host:
 
 ```bash
-sudo docker run --name "riak" -v /var/lib/riak:/data -d rcgenova/docker-riak-lite
-```
-
-## Deployment: dev cluster
-
-<b>Multiple containers on a single host.</b>
-
-Build or pull the image.
-
-Create the data directories:
-
-```bash
-mkdir /data1
-mkdir /data2
-mkdir /data3
+sudo mkdir /riak
+sudo mkdir /riak/node1
+sudo mkdir /riak/node1/lib
+sudo mkdir /riak/node1/log
+sudo cp -R /riak/node1 /riak/node2
+sudo cp -R /riak/node1 /riak/node3
 ```
 
 Launch the containers:
 
 ```bash
-sudo docker run --name "riak1" -v /var/lib/riak:/data1 -d rcgenova/docker-riak-lite
-sudo docker run --name "riak2" -v /var/lib/riak:/data2 -d rcgenova/docker-riak-lite
-sudo docker run --name "riak3" -v /var/lib/riak:/data3 -d rcgenova/docker-riak-lite
+sudo docker run --name "riak1" -v /riak/node1/lib:/var/lib/riak -v /riak/node1/log:/var/log/riak -d rcgenova/docker-riak-lite
+sudo docker run --name "riak2" -v /riak/node2/lib:/var/lib/riak -v /riak/node2/log:/var/log/riak -d rcgenova/docker-riak-lite
+sudo docker run --name "riak3" -v /riak/node3/lib:/var/lib/riak -v /riak/node3/log:/var/log/riak -d rcgenova/docker-riak-lite
+```
+
+Start Riak:
+
+```bash
+sudo docker exec -i -t riak1 riak start
+sudo docker exec -i -t riak2 riak start
+sudo docker exec -i -t riak3 riak start
 ```
 
 Configure the cluster:
 
 ```bash
-sudo docker ps (take note of the container IDs)
+IP=$(sudo docker inspect --format '{{ .NetworkSettings.IPAddress }}' riak1)
+sudo docker exec -i -t riak2 riak-admin cluster join riak@$IP
+sudo docker exec -i -t riak3 riak-admin cluster join riak@$IP
+sudo docker exec -i -t riak3 riak-admin cluster plan
+sudo docker exec -i -t riak3 riak-admin cluster commit
+sudo docker exec -i -t riak3 riak-admin member-status
 ```
 
-## Deployment: production cluster
+## Deploying a production cluster
 
-<b>The only viable way to run Riak on Docker in production is to run a single container per host with the --net=host option.</b>
+Provision a host per node. Install Docker, pull the image and run the following commands:
 
 ```bash
-sudo docker run --name "riak" -v /var/lib/riak:/data --net=host -d rcgenova/docker-riak-lite
+sudo mkdir /riak
+sudo mkdir /riak/lib
+sudo mkdir /riak/log
+sudo docker run --name "riak" --net=host -v /riak/lib:/var/lib/riak -v /riak/log:/var/log/riak -d rcgenova/docker-riak-lite
+sudo docker exec -i -t riak riak start
 ```
+
+Note the IP address of any one of the nodes:
+
+```bash
+IP=$(sudo docker inspect --format '{{ .NetworkSettings.IPAddress }}' riak)
+```
+
+Join the nodes, running the following on all nodes but the first:
+
+```bash
+sudo docker exec -i -t riak riak-admin cluster join riak@$IP
+```
+
+Plan and commit (from any node):
+
+```bash
+sudo docker exec -i -t riak riak-admin cluster plan
+sudo docker exec -i -t riak riak-admin cluster commit
+sudo docker exec -i -t riak riak-admin member-status
+```
+
