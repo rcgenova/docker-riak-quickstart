@@ -1,4 +1,4 @@
-# docker-riak-lite
+# docker-riak-quickstart
 
 Quickstart guide to running Riak on Docker for both development and production environments.
 
@@ -33,7 +33,7 @@ $ sudo docker build -t "rcgenova/docker-riak-lite" .
 ### Pull
 
 ```bash
-$ sudo docker pull rcgenova/docker-riak-lite
+$ sudo docker pull rcgenova/docker-riak-quickstart
 ```
 
 ## Deploying a development cluster
