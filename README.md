@@ -78,11 +78,19 @@ sudo docker exec -i -t riak3 riak-admin cluster commit
 sudo docker exec -i -t riak3 riak-admin member-status
 ```
 
-Get started with a Riak client [here](http://docs.basho.com/riak/latest/dev/taste-of-riak)!
+Wait a few minutes, then test via the HTTP API and the /stats endpoint:
+
+```bash
+curl localhost:8098/stats | python -m json.tool
+```
+
+Next steps: get started with a [Riak client](http://docs.basho.com/riak/latest/dev/taste-of-riak)!
 
 ## Deploying a production cluster
 
-Provision a host per node. Install Docker, pull the image and run the following commands:
+As mentioned above in the Networking section, production deployments require a dedicated host per Riak node (container).  
+
+Install Docker, pull the image and run the following commands (on each host):
 
 ```bash
 sudo mkdir /riak
@@ -92,13 +100,7 @@ sudo docker run --name "riak" --net=host -v /riak/lib:/var/lib/riak -v /riak/log
 sudo docker exec -i -t riak riak start
 ```
 
-Note the IP address of any one of the nodes:
-
-```bash
-IP=$(sudo docker inspect --format '{{ .NetworkSettings.IPAddress }}' riak)
-```
-
-Join the nodes, running the following on all nodes but the first:
+Note the IP address of any one of the hosts. Then, join the nodes by running the following on all nodes but the first:
 
 ```bash
 sudo docker exec -i -t riak riak-admin cluster join riak@$IP
@@ -114,7 +116,7 @@ sudo docker exec -i -t riak riak-admin member-status
 
 ## Riak configuration & tuning
 
-The only non-default configuration in the Dockerfile is the enablement of [Riak Search](http://docs.basho.com/riak/latest/dev/using/search). You should review the documentation on [basic configuration](http://docs.basho.com/riak/latest/ops/building/configuration) and [choosing a backend](http://docs.basho.com/riak/latest/ops/building/planning/backends) to determine whether or not additional changes make sense. Changes to the default configs will require building a new image from an updated Dockerfile.
+The only non-default configuration in the Dockerfile is the enablement of [Riak Search](http://docs.basho.com/riak/latest/dev/using/search). You should review the documentation on [basic configuration](http://docs.basho.com/riak/latest/ops/building/configuration) and [choosing a backend](http://docs.basho.com/riak/latest/ops/building/planning/backends) to determine whether or not additional changes make sense. Changes to the default configs will require building a new image from an updated Dockerfile.  
 
 It's also a good idea to [tune your Linux host](http://docs.basho.com/riak/latest/ops/tuning/linux).
 
