@@ -1,29 +1,28 @@
 # docker-riak-lite
 
-Run Riak on Docker
+Quickstart guide to running Riak on Docker for both development and production environments.
 
 ## Install Docker
 
-See: [https://docs.docker.com/installation/](https://docs.docker.com/installation)
+You will need to install Docker. See: [https://docs.docker.com/installation/](https://docs.docker.com/installation)
 
-## Storage
+## Docker and distributed databases
 
-Databases perform best on Docker with host-mounted storage. This requires a directory per container on the host system:
+Storage and networking are two important considerations when running a distributed database on Docker.
 
-```bash
-mkdir /data
-```
+### Storage
 
-Container volumes are mapped at run time with the -v option. This allows for data persistence when containers go down.
+Docker's Union File System poses performance problems for disk I/O intensive applications. For this reason, it is essential to bypass it with data volumes. The VOLUME instruction in a Dockerfile establishes that the given directory should be externally mounted. Launching the container with the -v option maps the volume to a specific, host-accessible directory. This enables data persistence independent of container status as well as increased performance.
 
-## Networking
+### Networking
 
-Bridge/NAT networking & virtual IPs
-Distributed systems
-Erlang Port Mapper Daemon
---net=host
+Docker uses Bridge/NAT networking & virtual IPs by default. This is acceptable for a development environment where all containers reside on the same host. Distributed systems running in production environments, however, require multiple physical hosts for independence of failure and fault tolerance. Bridge/NAT networking is incompatible with distributed systems due to the fact that internal IPs are not directly addressable outside of the context of their parent host. The only viable production configuration, therefore, is to run each node/container on a dedicated host and expose the host's networking directly to it (using the --net=host option). Cumbersome and complicated workarounds that have the potential to enable multiple containers per host in production are outside of the scope of this guide (for now).
 
-## Build image
+## Get the image
+
+You can clone the repo and build the image locally or just pull it from DockerHub.
+
+### Clone and build
 
 ```bash
 $ git clone https://github.com/rcgenova/docker-riak-lite.git
@@ -31,7 +30,7 @@ $ cd docker-riak-lite
 $ sudo docker build -t "rcgenova/docker-riak-lite" .
 ```
 
-## Pull image
+### Pull
 
 ```bash
 $ sudo docker pull rcgenova/docker-riak-lite
