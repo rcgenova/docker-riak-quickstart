@@ -100,7 +100,13 @@ sudo docker run --name "riak" --net=host -v /riak/lib:/var/lib/riak -v /riak/log
 sudo docker exec -i -t riak riak start
 ```
 
-Note the IP address of any one of the hosts. Then, join the nodes by running the following on all nodes but the first:
+Note the IP address of any one of the hosts:
+
+```bash
+IP=$(sudo docker inspect --format '{{ .NetworkSettings.IPAddress }}' riak)
+```
+
+Then, join the nodes by running the following command on all nodes but the first:
 
 ```bash
 sudo docker exec -i -t riak riak-admin cluster join riak@$IP
