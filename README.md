@@ -51,6 +51,12 @@ sudo cp -R /riak/node1 /riak/node2
 sudo cp -R /riak/node1 /riak/node3
 ```
 
+You may need to disable selinux on the host to enable the containers to write to the directories:
+
+```bash
+sudo setenforce 0
+```
+
 Launch the containers. Note the volume mappings and exposing of ports 8087 and 8098 for the first container:
 
 ```bash
@@ -98,18 +104,19 @@ sudo mkdir /riak/lib
 sudo mkdir /riak/log
 sudo docker run --name "riak" --net=host -v /riak/lib:/var/lib/riak -v /riak/log:/var/log/riak -d rcgenova/docker-riak-lite
 sudo docker exec -i -t riak riak start
+sudo docker exec -i -t riak riak ping
 ```
 
-Note the IP address of any one of the hosts:
+Note the eth0 IP address of any one of the hosts:
 
 ```bash
-IP=$(sudo docker inspect --format '{{ .NetworkSettings.IPAddress }}' riak)
+sudo docker exec -i -t riak ifconfig
 ```
 
 Then, join the nodes by running the following command on all nodes but the first:
 
 ```bash
-sudo docker exec -i -t riak riak-admin cluster join riak@$IP
+sudo docker exec -i -t riak riak-admin cluster join riak@[IPAddress]
 ```
 
 Plan and commit (from any node):
