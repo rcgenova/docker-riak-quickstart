@@ -118,5 +118,5 @@ sudo docker exec -i -t riak riak-admin member-status
 
 The only non-default configuration in the Dockerfile is the enablement of [Riak Search](http://docs.basho.com/riak/latest/dev/using/search). You should review the documentation on [basic configuration](http://docs.basho.com/riak/latest/ops/building/configuration) and [choosing a backend](http://docs.basho.com/riak/latest/ops/building/planning/backends) to determine whether or not additional changes make sense. Changes to the default configs will require building a new image from an updated Dockerfile.  
 
-It's also a good idea to [tune your Linux host](http://docs.basho.com/riak/latest/ops/tuning/linux).
+It's also a good idea to [tune your Linux host(s)](http://docs.basho.com/riak/latest/ops/tuning/linux).
 
