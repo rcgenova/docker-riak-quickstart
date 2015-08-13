@@ -16,7 +16,7 @@ Docker's Union File System poses performance problems for disk I/O intensive app
 
 ### Networking
 
-Docker uses Bridge/NAT networking & virtual IPs by default. This is acceptable for a development environment where all containers reside on the same host. Distributed systems running in production environments, however, require multiple physical hosts for independence of failure and fault tolerance. Bridge/NAT networking is incompatible with distributed systems due to the fact that internal IPs are not directly addressable outside of the context of their parent host. The only viable production configuration, therefore, is to run each node/container on a dedicated host and expose the host's networking directly to it (using the --net=host option). Cumbersome and complicated workarounds that have the potential to enable multiple containers per host in production are outside of the scope of this guide (for now).
+Docker uses Bridge/NAT networking & virtual IPs by default. This is acceptable for a development environment where all containers reside on the same host. Distributed systems running in production environments, however, require multiple physical hosts for independence of failure and fault tolerance. Bridge/NAT networking is incompatible with distributed systems due to the fact that internal IPs are not directly addressable outside of the context of their parent host. The only viable production configuration, therefore, is to run each node/container on a dedicated host and expose the host's networking directly to it (using the --net=host option at runtime). Cumbersome and complicated workarounds that have the potential to enable multiple containers per host in production are outside of the scope of this guide (for now).
 
 ## Get the image
 
@@ -38,7 +38,7 @@ $ sudo docker pull rcgenova/docker-riak-lite
 
 ## Deploying a development cluster
 
-Note: Hector Castro has an excellent [repo](https://github.com/hectcastro/docker-riak) which fully automates this.
+Note: Hector Castro has an excellent [repo](https://github.com/hectcastro/docker-riak) which fully automates the installation of a development environment.
 
 Create per-node data directories on the host:
 
