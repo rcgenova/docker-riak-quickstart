@@ -51,10 +51,10 @@ sudo cp -R /riak/node1 /riak/node2
 sudo cp -R /riak/node1 /riak/node3
 ```
 
-Launch the containers:
+Launch the containers. Note the volume mappings and exposing of ports 8087 and 8098 for the first container.
 
 ```bash
-sudo docker run --name "riak1" -v /riak/node1/lib:/var/lib/riak -v /riak/node1/log:/var/log/riak -d rcgenova/docker-riak-lite
+sudo docker run --name "riak1" -p 8087:8087 -p 8098:8098 -v /riak/node1/lib:/var/lib/riak -v /riak/node1/log:/var/log/riak -d rcgenova/docker-riak-lite
 sudo docker run --name "riak2" -v /riak/node2/lib:/var/lib/riak -v /riak/node2/log:/var/log/riak -d rcgenova/docker-riak-lite
 sudo docker run --name "riak3" -v /riak/node3/lib:/var/lib/riak -v /riak/node3/log:/var/log/riak -d rcgenova/docker-riak-lite
 ```
@@ -77,6 +77,8 @@ sudo docker exec -i -t riak3 riak-admin cluster plan
 sudo docker exec -i -t riak3 riak-admin cluster commit
 sudo docker exec -i -t riak3 riak-admin member-status
 ```
+
+Get started with a Riak client [here](http://docs.basho.com/riak/latest/dev/taste-of-riak).
 
 ## Deploying a production cluster
 
@@ -109,4 +111,5 @@ sudo docker exec -i -t riak riak-admin cluster plan
 sudo docker exec -i -t riak riak-admin cluster commit
 sudo docker exec -i -t riak riak-admin member-status
 ```
+
 
