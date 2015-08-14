@@ -25,9 +25,9 @@ You can clone the repo and build the image locally or just pull it from DockerHu
 ### Clone and build
 
 ```bash
-$ git clone https://github.com/rcgenova/docker-riak-lite.git
-$ cd docker-riak-lite
-$ sudo docker build -t "rcgenova/docker-riak-lite" .
+$ git clone https://github.com/rcgenova/docker-riak-quickstart.git
+$ cd docker-riak-quickstart
+$ sudo docker build -t "rcgenova/docker-riak-quickstart" .
 ```
 
 ### Pull
@@ -60,9 +60,9 @@ sudo setenforce 0
 Launch the containers. Note the volume mappings and exposing of ports 8087 and 8098 for the first container:
 
 ```bash
-sudo docker run --name "riak1" -p 8087:8087 -p 8098:8098 -v /riak/node1/lib:/var/lib/riak -v /riak/node1/log:/var/log/riak -d rcgenova/docker-riak-lite
-sudo docker run --name "riak2" -v /riak/node2/lib:/var/lib/riak -v /riak/node2/log:/var/log/riak -d rcgenova/docker-riak-lite
-sudo docker run --name "riak3" -v /riak/node3/lib:/var/lib/riak -v /riak/node3/log:/var/log/riak -d rcgenova/docker-riak-lite
+sudo docker run --name "riak1" -p 8087:8087 -p 8098:8098 -v /riak/node1/lib:/var/lib/riak -v /riak/node1/log:/var/log/riak -d rcgenova/docker-riak-quickstart
+sudo docker run --name "riak2" -v /riak/node2/lib:/var/lib/riak -v /riak/node2/log:/var/log/riak -d rcgenova/docker-riak-quickstart
+sudo docker run --name "riak3" -v /riak/node3/lib:/var/lib/riak -v /riak/node3/log:/var/log/riak -d rcgenova/docker-riak-quickstart
 ```
 
 Start Riak:
@@ -102,7 +102,7 @@ Install Docker, pull the image and run the following commands (on each host):
 sudo mkdir /riak
 sudo mkdir /riak/lib
 sudo mkdir /riak/log
-sudo docker run --name "riak" --net=host -v /riak/lib:/var/lib/riak -v /riak/log:/var/log/riak -d rcgenova/docker-riak-lite
+sudo docker run --name "riak" --net=host -v /riak/lib:/var/lib/riak -v /riak/log:/var/log/riak -d rcgenova/docker-riak-quickstart
 sudo docker exec -i -t riak riak start
 sudo docker exec -i -t riak riak ping
 ```
@@ -133,3 +133,4 @@ The only non-default configuration in the Dockerfile is the enablement of [Riak 
 
 It's also a good idea to [tune your Linux host(s)](http://docs.basho.com/riak/latest/ops/tuning/linux).
 
+li
