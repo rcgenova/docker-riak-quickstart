@@ -51,11 +51,7 @@ sudo cp -R /riak/node1 /riak/node2
 sudo cp -R /riak/node1 /riak/node3
 ```
 
-You may need to disable selinux on the host to enable the containers to write to the directories:
-
-```bash
-sudo setenforce 0
-```
+You may need to disable selinux ('sudo setenforce 0') on the host to enable the containers to write to the directories. [Boot2Docker](https://github.com/boot2docker/boot2docker) has it's own volume sharing requirements.  
 
 Launch the containers. Note the volume mappings and exposing of ports 8087 and 8098 for the first container:
 
