@@ -27,24 +27,18 @@ RUN sed -i.bak 's/listener.http.internal = 127.0.0.1/listener.http.internal = 0.
     sed -i.bak 's/listener.protobuf.internal = 127.0.0.1/listener.protobuf.internal = 0.0.0.0/' /etc/riak/riak.conf && \
     echo "erlang.distribution.port_range.minimum = 6000" >> /etc/riak/riak.conf && \
     echo "erlang.distribution.port_range.maximum = 7999" >> /etc/riak/riak.conf && \
-    echo "search = on"
+    echo "search = on" >> /etc/riak/riak.conf
 
 # Expose ports
 
-## protocol buffers, HTTP
-EXPOSE 8087 8098
+## protocol buffers: 8087
+## HTTP: 8098
+## EPMD: 4369
+## Erlang internode communication: 6000-7999
+## Handoff: 8099
+## Search: 8985, 8093
 
-## EPMD
-EXPOSE 4369
-
-## Erlang internode communication
-EXPOSE 6000-7999
-
-## Handoff
-EXPOSE 8099
-
-## Search
-EXPOSE 8985 8093
+EXPOSE 8087 8098 4369 6000-7999 8099 8985 8093
 
 VOLUME /var/lib/riak
 VOLUME /var/log/riak
