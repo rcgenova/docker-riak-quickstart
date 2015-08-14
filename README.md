@@ -103,16 +103,16 @@ sudo docker exec -i -t riak riak start
 sudo docker exec -i -t riak riak ping
 ```
 
-Note the eth0 IP address of any one of the hosts:
+Obtain the eth0 IP address of any one of the hosts:
 
 ```bash
-sudo docker exec -i -t riak ifconfig
+IP=$(sudo docker exec -it riak ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1)
 ```
 
 Then, join the nodes by running the following command on all nodes but the first:
 
 ```bash
-sudo docker exec -i -t riak riak-admin cluster join riak@[IPAddress]
+sudo docker exec -i -t riak riak-admin cluster join riak@$IP
 ```
 
 Plan and commit (from any node):
