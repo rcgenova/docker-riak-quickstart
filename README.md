@@ -90,7 +90,7 @@ Next steps: get started with a [Riak client](http://docs.basho.com/riak/latest/d
 
 ## Deploying a production cluster
 
-As mentioned above in the Networking section, production deployments require a dedicated host per Riak node (container).  
+<b>As mentioned above in the Networking section, production deployments require a dedicated host per Riak node/container.</b>  
 
 Install Docker, pull the image and run the following commands (on each host):
 
