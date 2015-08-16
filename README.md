@@ -16,7 +16,7 @@ Docker's Union File System poses performance problems for disk I/O intensive app
 
 ### Networking
 
-Docker uses Bridge/NAT networking & virtual IPs by default. This is acceptable for a development environment where all containers reside on the same host. Distributed systems running in production environments, however, require multiple physical hosts for independence of failure and fault tolerance. Bridge/NAT networking is incompatible with distributed systems due to the fact that internal IPs are not directly addressable outside of the context of their parent host. The only viable production configuration, therefore, is to run each node/container on a dedicated host and expose the host's networking directly to it (using the --net=host option at runtime). Cumbersome and complicated workarounds that have the potential to enable multiple containers per host in production are outside of the scope of this guide.
+Docker uses [Bridge/NAT networking](https://docs.docker.com/articles/networking/#how-docker-networks-a-container) & virtual IPs by default. This is acceptable for a development environment where all containers reside on the same host. Distributed systems running in production environments, however, require multiple physical hosts for independence of failure and fault tolerance. Bridge/NAT networking is incompatible with distributed systems due to the fact that internal IPs are not directly addressable outside of the context of their parent host. The only viable production configuration, therefore, is to run each node/container on a dedicated host and expose the host's networking directly to it (using the --net=host option at runtime). Cumbersome and complicated workarounds that have the potential to enable multiple containers per host in production are outside of the scope of this guide.
 
 ## Get the image
 
@@ -123,8 +123,14 @@ sudo docker exec -i -t riak riak-admin cluster commit
 sudo docker exec -i -t riak riak-admin member-status
 ```
 
-## Riak configuration & tuning
+## Configuration & tuning
 
 The only non-default configuration in the Dockerfile is the enablement of [Riak Search](http://docs.basho.com/riak/latest/dev/using/search). You should review the documentation on [basic configuration](http://docs.basho.com/riak/latest/ops/building/configuration) and [choosing a backend](http://docs.basho.com/riak/latest/ops/building/planning/backends) to determine whether or not additional changes make sense. Changes to the default configs will require building a new image from an updated Dockerfile.  
 
 It's also a good idea to [tune your Linux host(s)](http://docs.basho.com/riak/latest/ops/tuning/linux).
+
+## Administration
+
+Recovery from a downed container requires jumping through a few hoops admistratively. See [ContainerRecovery.md](ContainerRecovery.md).
+
+
