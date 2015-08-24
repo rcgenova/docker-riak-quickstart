@@ -1,6 +1,6 @@
 # docker-riak-quickstart
 
-Quickstart guide to running Riak on Docker for both development and production environments. (Please note that Basho does not officially support or recommend deploying Riak with Docker.)
+Quickstart guide to running Riak on Docker for both development and production environments. (Please note that Basho does not officially support or recommend deploying Riak in production with Docker.)
 
 ## Install Docker
 
