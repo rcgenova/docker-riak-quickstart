@@ -131,6 +131,6 @@ It's also a good idea to [tune your Linux host(s)](http://docs.basho.com/riak/la
 
 ## Administration
 
-Recovery from a downed container requires jumping through a few hoops admistratively. See [ContainerRecovery.md](ContainerRecovery.md).
+Recovery from a downed container requires jumping through a few hoops administratively. See [ContainerRecovery.md](ContainerRecovery.md).
 
 
